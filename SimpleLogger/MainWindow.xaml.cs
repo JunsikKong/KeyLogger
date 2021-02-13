@@ -133,7 +133,7 @@ namespace SimpleLogger
             int s = time / S_MASK;
             time -= s * S_MASK;
 
-            if (keyCode >= 33 && keyCode <= 126)
+            if (keyCode >= 33 && keyCode <= 96)
             {
                 char c = (char)keyCode;
                 string str = c + "키";

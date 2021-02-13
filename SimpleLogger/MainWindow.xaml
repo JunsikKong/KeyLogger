@@ -5,26 +5,434 @@
                  xmlns:mah="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
                  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                  Title="Simple Logger"
-                 Width="800"
-                 Height="450"
+                 Width="1400"
+                 Height="400"
                  WindowStartupLocation="CenterScreen"
                  mc:Ignorable="d"
                  >
+
+    <Window.Resources>
+        <Style x:Key="Header1" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="15" />
+            <Setter Property="FontWeight" Value="ExtraBold" />
+        </Style>
+    </Window.Resources>
+    
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="10*" />
-            <ColumnDefinition Width="5" />
             <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="1" />
+            <ColumnDefinition Width="60" />
+            <ColumnDefinition Width="60" />
+            <ColumnDefinition Width="60" />
         </Grid.ColumnDefinitions>
+
         <Grid.RowDefinitions>
             <RowDefinition Height="35"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
+
+        <Grid Grid.RowSpan="2" >
+            <Grid.ColumnDefinitions>
+                <!--사이드-->
+                <ColumnDefinition Width="10" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+
+                <!--사이드-->
+                <ColumnDefinition Width="10" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+
+                <!--사이드-->
+                <ColumnDefinition Width="10" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+
+                <!--사이드-->
+                <ColumnDefinition Width="10" />
+            </Grid.ColumnDefinitions>
+            
+            <Grid.RowDefinitions>
+                <!--사이드-->
+                <RowDefinition Height="10"/>
+                <RowDefinition Height="*"/>
+
+                <!--사이드-->
+                <RowDefinition Height="10"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+
+                <!--사이드-->
+                <RowDefinition Height="10"/>
+            </Grid.RowDefinitions>
+
+            
+            <Border Name="BorderEsc"  Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="1" Grid.RowSpan="1" Style="{StaticResource BorderKey}" >
+                <TextBlock Text="ESC" Style="{StaticResource TextBlockKey}" />
+            </Border>
+
+            <Border Name="BorderF1"  Grid.Column="5" Grid.ColumnSpan="2" Grid.Row="1" Grid.RowSpan="1" Style="{StaticResource BorderKey}" >
+                <TextBlock Text="F1" Style="{StaticResource TextBlockKey}" />
+            </Border>
+            <Border Name="BorderF2"  Grid.Column="7" Grid.ColumnSpan="2" Grid.Row="1" Grid.RowSpan="1" Style="{StaticResource BorderKey}" >
+                <TextBlock Text="F2" Style="{StaticResource TextBlockKey}" />
+            </Border>
+            <Border Name="BorderF3"  Grid.Column="9" Grid.ColumnSpan="2" Grid.Row="1" Grid.RowSpan="1" Style="{StaticResource BorderKey}" >
+                <TextBlock Text="F3" Style="{StaticResource TextBlockKey}" />
+            </Border>
+            <Border Name="BorderF4"  Grid.Column="11" Grid.ColumnSpan="2" Grid.Row="1" Grid.RowSpan="1" Style="{StaticResource BorderKey}" >
+                <TextBlock Text="F4" Style="{StaticResource TextBlockKey}" />
+            </Border>
+            <Border Name="BorderF5"  Grid.Column="14" Grid.ColumnSpan="2" Grid.Row="1" Grid.RowSpan="1" Style="{StaticResource BorderKey}" >
+                <TextBlock Text="F5" Style="{StaticResource TextBlockKey}" />
+            </Border>
+            <Border Name="BorderF6"  Grid.Column="16" Grid.ColumnSpan="2" Grid.Row="1" Grid.RowSpan="1" Style="{StaticResource BorderKey}" >
+                <TextBlock Text="F6" Style="{StaticResource TextBlockKey}" />
+            </Border>
+            <Border Name="BorderF7"  Grid.Column="18" Grid.ColumnSpan="2" Grid.Row="1" Grid.RowSpan="1" Style="{StaticResource BorderKey}" >
+                <TextBlock Text="F7" Style="{StaticResource TextBlockKey}" />
+            </Border>
+            <Border Name="BorderF8"  Grid.Column="20" Grid.ColumnSpan="2" Grid.Row="1" Grid.RowSpan="1" Style="{StaticResource BorderKey}" >
+                <TextBlock Text="F8" Style="{StaticResource TextBlockKey}" />
+            </Border>
+            <Border Name="BorderF9"  Grid.Column="23" Grid.ColumnSpan="2" Grid.Row="1" Grid.RowSpan="1" Style="{StaticResource BorderKey}" >
+                <TextBlock Text="F9" Style="{StaticResource TextBlockKey}" />
+            </Border>
+            <Border Name="BorderF10"  Grid.Column="25" Grid.ColumnSpan="2" Grid.Row="1" Grid.RowSpan="1" Style="{StaticResource BorderKey}" >
+                <TextBlock Text="F10" Style="{StaticResource TextBlockKey}" />
+            </Border>
+            <Border Name="BorderF11"  Grid.Column="27" Grid.ColumnSpan="2" Grid.Row="1" Grid.RowSpan="1" Style="{StaticResource BorderKey}" >
+                <TextBlock Text="F11" Style="{StaticResource TextBlockKey}" />
+            </Border>
+            <Border Name="BorderF12"  Grid.Column="29" Grid.ColumnSpan="2" Grid.Row="1" Grid.RowSpan="1" Style="{StaticResource BorderKey}" >
+                <TextBlock Text="F12" Style="{StaticResource TextBlockKey}" />
+            </Border>
+
+            
+            <Border Name="BorderPrtSc"  Grid.Column="32" Grid.ColumnSpan="2" Grid.Row="1" Grid.RowSpan="1" Style="{StaticResource BorderKey}" >
+                <TextBlock Text="PrtSc" Style="{StaticResource TextBlockKey}" />
+            </Border>
+            <Border Name="BorderScrLk"  Grid.Column="34" Grid.ColumnSpan="2" Grid.Row="1" Grid.RowSpan="1" Style="{StaticResource BorderKey}" >
+                <TextBlock Text="ScrLk" Style="{StaticResource TextBlockKey}" />
+            </Border>
+            <Border Name="BorderPause"  Grid.Column="36" Grid.ColumnSpan="2" Grid.Row="1" Grid.RowSpan="1" Style="{StaticResource BorderKey}" >
+                <TextBlock Text="Pause" Style="{StaticResource TextBlockKey}" />
+            </Border>
+
+            
+            <Border Name="BorderGrave"  Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="3" Grid.RowSpan="1" Style="{StaticResource BorderKey}" >
+                <TextBlock Text="`" Style="{StaticResource TextBlockKey}" />
+            </Border>
+            <Border Name="Border1"  Grid.Column="3" Grid.ColumnSpan="2" Grid.Row="3" Grid.RowSpan="1" Style="{StaticResource BorderKey}" >
+                <TextBlock Text="1" Style="{StaticResource TextBlockKey}" />
+            </Border>
+            <Border Name="Border2"  Grid.Column="5" Grid.ColumnSpan="2" Grid.Row="3" Grid.RowSpan="1" Style="{StaticResource BorderKey}" >
+                <TextBlock Text="2" Style="{StaticResource TextBlockKey}" />
+            </Border>
+            <Border Name="Border3"  Grid.Column="7" Grid.ColumnSpan="2" Grid.Row="3" Grid.RowSpan="1" Style="{StaticResource BorderKey}" >
+                <TextBlock Text="3" Style="{StaticResource TextBlockKey}" />
+            </Border>
+            <Border Name="Border4"  Grid.Column="9" Grid.ColumnSpan="2" Grid.Row="3" Grid.RowSpan="1" Style="{StaticResource BorderKey}" >
+                <TextBlock Text="4" Style="{StaticResource TextBlockKey}" />
+            </Border>
+            <Border Name="Border5"  Grid.Column="11" Grid.ColumnSpan="2" Grid.Row="3" Grid.RowSpan="1" Style="{StaticResource BorderKey}" >
+                <TextBlock Text="5" Style="{StaticResource TextBlockKey}" />
+            </Border>
+            <Border Name="Border6"  Grid.Column="13" Grid.ColumnSpan="2" Grid.Row="3" Grid.RowSpan="1" Style="{StaticResource BorderKey}" >
+                <TextBlock Text="6" Style="{StaticResource TextBlockKey}" />
+            </Border>
+            <Border Name="Border7"  Grid.Column="15" Grid.ColumnSpan="2" Grid.Row="3" Grid.RowSpan="1" Style="{StaticResource BorderKey}" >
+                <TextBlock Text="7" Style="{StaticResource TextBlockKey}" />
+            </Border>
+            <Border Name="Border8"  Grid.Column="17" Grid.ColumnSpan="2" Grid.Row="3" Grid.RowSpan="1" Style="{StaticResource BorderKey}" >
+                <TextBlock Text="8" Style="{StaticResource TextBlockKey}" />
+            </Border>
+            <Border Name="Border9"  Grid.Column="19" Grid.ColumnSpan="2" Grid.Row="3" Grid.RowSpan="1" Style="{StaticResource BorderKey}" >
+                <TextBlock Text="9" Style="{StaticResource TextBlockKey}" />
+            </Border>
+            <Border Name="Border0"  Grid.Column="21" Grid.ColumnSpan="2" Grid.Row="3" Grid.RowSpan="1" Style="{StaticResource BorderKey}" >
+                <TextBlock Text="0" Style="{StaticResource TextBlockKey}" />
+            </Border>
+            <Border Name="BorderMinus"  Grid.Column="23" Grid.ColumnSpan="2" Grid.Row="3" Grid.RowSpan="1" Style="{StaticResource BorderKey}" >
+                <TextBlock Text="-" Style="{StaticResource TextBlockKey}" />
+            </Border>
+            <Border Name="BorderEqual"  Grid.Column="25" Grid.ColumnSpan="2" Grid.Row="3" Grid.RowSpan="1" Style="{StaticResource BorderKey}" >
+                <TextBlock Text="=" Style="{StaticResource TextBlockKey}" />
+            </Border>
+            <Border Name="BorderBackspace"  Grid.Column="27" Grid.ColumnSpan="4" Grid.Row="3" Grid.RowSpan="1" Style="{StaticResource BorderKey}" >
+                <TextBlock Text="Backspace" Style="{StaticResource TextBlockKey}" />
+            </Border>
+            <Border Name="BorderTab"  Grid.Column="1" Grid.ColumnSpan="3" Grid.Row="4" Grid.RowSpan="1" Style="{StaticResource BorderKey}" >
+                <TextBlock Text="Tab" Style="{StaticResource TextBlockKey}" />
+            </Border>
+            <Border Name="BorderQ"  Grid.Column="4" Grid.ColumnSpan="2" Grid.Row="4" Grid.RowSpan="1" Style="{StaticResource BorderKey}" >
+                <TextBlock Text="Q" Style="{StaticResource TextBlockKey}" />
+            </Border>
+            <Border Name="BorderW"  Grid.Column="6" Grid.ColumnSpan="2" Grid.Row="4" Grid.RowSpan="1" Style="{StaticResource BorderKey}" >
+                <TextBlock Text="W" Style="{StaticResource TextBlockKey}" />
+            </Border>
+            <Border Name="BorderE"  Grid.Column="8" Grid.ColumnSpan="2" Grid.Row="4" Grid.RowSpan="1" Style="{StaticResource BorderKey}" >
+                <TextBlock Text="E" Style="{StaticResource TextBlockKey}" />
+            </Border>
+            <Border Name="BorderR"  Grid.Column="10" Grid.ColumnSpan="2" Grid.Row="4" Grid.RowSpan="1" Style="{StaticResource BorderKey}" >
+                <TextBlock Text="R" Style="{StaticResource TextBlockKey}" />
+            </Border>
+            <Border Name="BorderT"  Grid.Column="12" Grid.ColumnSpan="2" Grid.Row="4" Grid.RowSpan="1" Style="{StaticResource BorderKey}" >
+                <TextBlock Text="T" Style="{StaticResource TextBlockKey}" />
+            </Border>
+            <Border Name="BorderY"  Grid.Column="14" Grid.ColumnSpan="2" Grid.Row="4" Grid.RowSpan="1" Style="{StaticResource BorderKey}" >
+                <TextBlock Text="Y" Style="{StaticResource TextBlockKey}" />
+            </Border>
+            <Border Name="BorderU"  Grid.Column="16" Grid.ColumnSpan="2" Grid.Row="4" Grid.RowSpan="1" Style="{StaticResource BorderKey}" >
+                <TextBlock Text="U" Style="{StaticResource TextBlockKey}" />
+            </Border>
+            <Border Name="BorderI"  Grid.Column="18" Grid.ColumnSpan="2" Grid.Row="4" Grid.RowSpan="1" Style="{StaticResource BorderKey}" >
+                <TextBlock Text="I" Style="{StaticResource TextBlockKey}" />
+            </Border>
+            <Border Name="BorderO"  Grid.Column="20" Grid.ColumnSpan="2" Grid.Row="4" Grid.RowSpan="1" Style="{StaticResource BorderKey}" >
+                <TextBlock Text="O" Style="{StaticResource TextBlockKey}" />
+            </Border>
+            <Border Name="BorderP"  Grid.Column="22" Grid.ColumnSpan="2" Grid.Row="4" Grid.RowSpan="1" Style="{StaticResource BorderKey}" >
+                <TextBlock Text="P" Style="{StaticResource TextBlockKey}" />
+            </Border>
+            <Border Name="BorderLBracket"  Grid.Column="24" Grid.ColumnSpan="2" Grid.Row="4" Grid.RowSpan="1" Style="{StaticResource BorderKey}" >
+                <TextBlock Text="[" Style="{StaticResource TextBlockKey}" />
+            </Border>
+            <Border Name="BorderRBracket"  Grid.Column="26" Grid.ColumnSpan="2" Grid.Row="4" Grid.RowSpan="1" Style="{StaticResource BorderKey}" >
+                <TextBlock Text="]" Style="{StaticResource TextBlockKey}" />
+            </Border>
+            <Border Name="BorderBackslash"  Grid.Column="28" Grid.ColumnSpan="3" Grid.Row="4" Grid.RowSpan="1" Style="{StaticResource BorderKey}" >
+                <TextBlock Text="\" Style="{StaticResource TextBlockKey}" />
+            </Border>
+            <Border Name="BorderCapslock"  Grid.Column="1" Grid.ColumnSpan="4" Grid.Row="5" Grid.RowSpan="1" Style="{StaticResource BorderKey}" >
+                <TextBlock Text="CapsLock" Style="{StaticResource TextBlockKey}" />
+            </Border>
+            <Border Name="BorderA"  Grid.Column="5" Grid.ColumnSpan="2" Grid.Row="5" Grid.RowSpan="1" Style="{StaticResource BorderKey}" >
+                <TextBlock Text="A" Style="{StaticResource TextBlockKey}" />
+            </Border>
+            <Border Name="BorderS"  Grid.Column="7" Grid.ColumnSpan="2" Grid.Row="5" Grid.RowSpan="1" Style="{StaticResource BorderKey}" >
+                <TextBlock Text="S" Style="{StaticResource TextBlockKey}" />
+            </Border>
+            <Border Name="BorderD"  Grid.Column="9" Grid.ColumnSpan="2" Grid.Row="5" Grid.RowSpan="1" Style="{StaticResource BorderKey}" >
+                <TextBlock Text="D" Style="{StaticResource TextBlockKey}" />
+            </Border>
+            <Border Name="BorderF"  Grid.Column="11" Grid.ColumnSpan="2" Grid.Row="5" Grid.RowSpan="1" Style="{StaticResource BorderKey}" >
+                <TextBlock Text="F" Style="{StaticResource TextBlockKey}" />
+            </Border>
+            <Border Name="BorderG"  Grid.Column="13" Grid.ColumnSpan="2" Grid.Row="5" Grid.RowSpan="1" Style="{StaticResource BorderKey}" >
+                <TextBlock Text="G" Style="{StaticResource TextBlockKey}" />
+            </Border>
+            <Border Name="BorderH"  Grid.Column="15" Grid.ColumnSpan="2" Grid.Row="5" Grid.RowSpan="1" Style="{StaticResource BorderKey}" >
+                <TextBlock Text="H" Style="{StaticResource TextBlockKey}" />
+            </Border>
+            <Border Name="BorderJ"  Grid.Column="17" Grid.ColumnSpan="2" Grid.Row="5" Grid.RowSpan="1" Style="{StaticResource BorderKey}" >
+                <TextBlock Text="J" Style="{StaticResource TextBlockKey}" />
+            </Border>
+            <Border Name="BorderK"  Grid.Column="19" Grid.ColumnSpan="2" Grid.Row="5" Grid.RowSpan="1" Style="{StaticResource BorderKey}" >
+                <TextBlock Text="K" Style="{StaticResource TextBlockKey}" />
+            </Border>
+            <Border Name="BorderL"  Grid.Column="21" Grid.ColumnSpan="2" Grid.Row="5" Grid.RowSpan="1" Style="{StaticResource BorderKey}" >
+                <TextBlock Text="L" Style="{StaticResource TextBlockKey}" />
+            </Border>
+            <Border Name="BorderSemicolon"  Grid.Column="23" Grid.ColumnSpan="2" Grid.Row="5" Grid.RowSpan="1" Style="{StaticResource BorderKey}" >
+                <TextBlock Text=";" Style="{StaticResource TextBlockKey}" />
+            </Border>
+            <Border Name="BorderApostrophe"  Grid.Column="25" Grid.ColumnSpan="2" Grid.Row="5" Grid.RowSpan="1" Style="{StaticResource BorderKey}" >
+                <TextBlock Text="'" Style="{StaticResource TextBlockKey}" />
+            </Border>
+            <Border Name="BorderReturn"  Grid.Column="27" Grid.ColumnSpan="4" Grid.Row="5" Grid.RowSpan="1" Style="{StaticResource BorderKey}" >
+                <TextBlock Text="Enter" Style="{StaticResource TextBlockKey}" />
+            </Border>
+            <Border Name="BorderLShift"  Grid.Column="1" Grid.ColumnSpan="5" Grid.Row="6" Grid.RowSpan="1" Style="{StaticResource BorderKey}" >
+                <TextBlock Text="Shift" Style="{StaticResource TextBlockKey}" />
+            </Border>
+            <Border Name="BorderZ"  Grid.Column="6" Grid.ColumnSpan="2" Grid.Row="6" Grid.RowSpan="1" Style="{StaticResource BorderKey}" >
+                <TextBlock Text="Z" Style="{StaticResource TextBlockKey}" />
+            </Border>
+            <Border Name="BorderX"  Grid.Column="8" Grid.ColumnSpan="2" Grid.Row="6" Grid.RowSpan="1" Style="{StaticResource BorderKey}" >
+                <TextBlock Text="X" Style="{StaticResource TextBlockKey}" />
+            </Border>
+            <Border Name="BorderC"  Grid.Column="10" Grid.ColumnSpan="2" Grid.Row="6" Grid.RowSpan="1" Style="{StaticResource BorderKey}" >
+                <TextBlock Text="C" Style="{StaticResource TextBlockKey}" />
+            </Border>
+            <Border Name="BorderV"  Grid.Column="12" Grid.ColumnSpan="2" Grid.Row="6" Grid.RowSpan="1" Style="{StaticResource BorderKey}" >
+                <TextBlock Text="V" Style="{StaticResource TextBlockKey}" />
+            </Border>
+            <Border Name="BorderB"  Grid.Column="14" Grid.ColumnSpan="2" Grid.Row="6" Grid.RowSpan="1" Style="{StaticResource BorderKey}" >
+                <TextBlock Text="B" Style="{StaticResource TextBlockKey}" />
+            </Border>
+            <Border Name="BorderN"  Grid.Column="16" Grid.ColumnSpan="2" Grid.Row="6" Grid.RowSpan="1" Style="{StaticResource BorderKey}" >
+                <TextBlock Text="N" Style="{StaticResource TextBlockKey}" />
+            </Border>
+            <Border Name="BorderM"  Grid.Column="18" Grid.ColumnSpan="2" Grid.Row="6" Grid.RowSpan="1" Style="{StaticResource BorderKey}" >
+                <TextBlock Text="M" Style="{StaticResource TextBlockKey}" />
+            </Border>
+            <Border Name="BorderDash"  Grid.Column="20" Grid.ColumnSpan="2" Grid.Row="6" Grid.RowSpan="1" Style="{StaticResource BorderKey}" >
+                <TextBlock Text="," Style="{StaticResource TextBlockKey}" />
+            </Border>
+            <Border Name="BorderPeriod"  Grid.Column="22" Grid.ColumnSpan="2" Grid.Row="6" Grid.RowSpan="1" Style="{StaticResource BorderKey}" >
+                <TextBlock Text="." Style="{StaticResource TextBlockKey}" />
+            </Border>
+            <Border Name="BorderSlash"  Grid.Column="24" Grid.ColumnSpan="2" Grid.Row="6" Grid.RowSpan="1" Style="{StaticResource BorderKey}" >
+                <TextBlock Text="/" Style="{StaticResource TextBlockKey}" />
+            </Border>
+            <Border Name="BorderRShift"  Grid.Column="26" Grid.ColumnSpan="5" Grid.Row="6" Grid.RowSpan="1" Style="{StaticResource BorderKey}" >
+                <TextBlock Text="Shift" Style="{StaticResource TextBlockKey}" />
+            </Border>
+            <Border Name="BorderLCtrl"  Grid.Column="1" Grid.ColumnSpan="3" Grid.Row="7" Grid.RowSpan="1" Style="{StaticResource BorderKey}" >
+                <TextBlock Text="Ctrl" Style="{StaticResource TextBlockKey}" />
+            </Border>
+            <Border Name="BorderLWin"  Grid.Column="4" Grid.ColumnSpan="3" Grid.Row="7" Grid.RowSpan="1" Style="{StaticResource BorderKey}" >
+                <TextBlock Text="Win" Style="{StaticResource TextBlockKey}" />
+            </Border>
+            <Border Name="BorderLAlt"  Grid.Column="7" Grid.ColumnSpan="3" Grid.Row="7" Grid.RowSpan="1" Style="{StaticResource BorderKey}" >
+                <TextBlock Text="Alt" Style="{StaticResource TextBlockKey}" />
+            </Border>
+            <Border Name="BorderSpacebar"  Grid.Column="10" Grid.ColumnSpan="12" Grid.Row="7" Grid.RowSpan="1" Style="{StaticResource BorderKey}" >
+                <TextBlock Text="Spacebar" Style="{StaticResource TextBlockKey}" />
+            </Border>
+            <Border Name="BorderRAlt"  Grid.Column="22" Grid.ColumnSpan="3" Grid.Row="7" Grid.RowSpan="1" Style="{StaticResource BorderKey}" >
+                <TextBlock Text="Alt" Style="{StaticResource TextBlockKey}" />
+            </Border>
+            <Border Name="BorderApp"  Grid.Column="25" Grid.ColumnSpan="3" Grid.Row="7" Grid.RowSpan="1" Style="{StaticResource BorderKey}" >
+                <TextBlock Text="Menu" Style="{StaticResource TextBlockKey}" />
+            </Border>
+            <Border Name="BorderRCtrl"  Grid.Column="28" Grid.ColumnSpan="3" Grid.Row="7" Grid.RowSpan="1" Style="{StaticResource BorderKey}" >
+                <TextBlock Text="Ctrl" Style="{StaticResource TextBlockKey}" />
+            </Border>
+
+            
+            <Border Name="BorderIns"  Grid.Column="32" Grid.ColumnSpan="2" Grid.Row="3" Grid.RowSpan="1" Style="{StaticResource BorderKey}" >
+                <TextBlock Text="Insert" Style="{StaticResource TextBlockKey}" />
+            </Border>
+            <Border Name="BorderHome"  Grid.Column="34" Grid.ColumnSpan="2" Grid.Row="3" Grid.RowSpan="1" Style="{StaticResource BorderKey}" >
+                <TextBlock Text="Home" Style="{StaticResource TextBlockKey}" />
+            </Border>
+            <Border Name="BorderPgup"  Grid.Column="36" Grid.ColumnSpan="2" Grid.Row="3" Grid.RowSpan="1" Style="{StaticResource BorderKey}" >
+                <TextBlock Text="Page&#10;Up" Style="{StaticResource TextBlockKey}" />
+            </Border>
+            <Border Name="BorderDel"  Grid.Column="32" Grid.ColumnSpan="2" Grid.Row="4" Grid.RowSpan="1" Style="{StaticResource BorderKey}" >
+                <TextBlock Text="Delete" Style="{StaticResource TextBlockKey}" />
+            </Border>
+            <Border Name="BorderEnd"  Grid.Column="34" Grid.ColumnSpan="2" Grid.Row="4" Grid.RowSpan="1" Style="{StaticResource BorderKey}" >
+                <TextBlock Text="End" Style="{StaticResource TextBlockKey}" />
+            </Border>
+            <Border Name="BorderPgdn"  Grid.Column="36" Grid.ColumnSpan="2" Grid.Row="4" Grid.RowSpan="1" Style="{StaticResource BorderKey}" >
+                <TextBlock Text="Page&#10;Down" Style="{StaticResource TextBlockKey}" />
+            </Border>
+
+            <Border Name="BorderUp"  Grid.Column="34" Grid.ColumnSpan="2" Grid.Row="6" Grid.RowSpan="1" Style="{StaticResource BorderKey}" >
+                <TextBlock Text="↑" Style="{StaticResource TextBlockKey}" />
+            </Border>
+            <Border Name="BorderLeft"  Grid.Column="32" Grid.ColumnSpan="2" Grid.Row="7" Grid.RowSpan="1" Style="{StaticResource BorderKey}" >
+                <TextBlock Text="←" Style="{StaticResource TextBlockKey}" />
+            </Border>
+            <Border Name="BorderDown"  Grid.Column="34" Grid.ColumnSpan="2" Grid.Row="7" Grid.RowSpan="1" Style="{StaticResource BorderKey}" >
+                <TextBlock Text="↓" Style="{StaticResource TextBlockKey}" />
+            </Border>
+            <Border Name="BorderRight"  Grid.Column="36" Grid.ColumnSpan="2" Grid.Row="7" Grid.RowSpan="1" Style="{StaticResource BorderKey}" >
+                <TextBlock Text="→" Style="{StaticResource TextBlockKey}" />
+            </Border>
+
+            <Border Name="BorderNumlock"  Grid.Column="39" Grid.ColumnSpan="2" Grid.Row="3" Grid.RowSpan="1" Style="{StaticResource BorderKey}" >
+                <TextBlock Text="Num&#10;Lock" Style="{StaticResource TextBlockKey}" />
+            </Border>
+            <Border Name="BorderNumSlash"  Grid.Column="41" Grid.ColumnSpan="2" Grid.Row="3" Grid.RowSpan="1" Style="{StaticResource BorderKey}" >
+                <TextBlock Text="/" Style="{StaticResource TextBlockKey}" />
+            </Border>
+            <Border Name="BorderNumAsterisk"  Grid.Column="43" Grid.ColumnSpan="2" Grid.Row="3" Grid.RowSpan="1" Style="{StaticResource BorderKey}" >
+                <TextBlock Text="*" Style="{StaticResource TextBlockKey}" />
+            </Border>
+            <Border Name="BorderNumMinus"  Grid.Column="45" Grid.ColumnSpan="2" Grid.Row="3" Grid.RowSpan="1" Style="{StaticResource BorderKey}" >
+                <TextBlock Text="-" Style="{StaticResource TextBlockKey}" />
+            </Border>
+            <Border Name="BorderNum7"  Grid.Column="39" Grid.ColumnSpan="2" Grid.Row="4" Grid.RowSpan="1" Style="{StaticResource BorderKey}" >
+                <TextBlock Text="7" Style="{StaticResource TextBlockKey}" />
+            </Border>
+            <Border Name="BorderNum8"  Grid.Column="41" Grid.ColumnSpan="2" Grid.Row="4" Grid.RowSpan="1" Style="{StaticResource BorderKey}" >
+                <TextBlock Text="8" Style="{StaticResource TextBlockKey}" />
+            </Border>
+            <Border Name="BorderNum9"  Grid.Column="43" Grid.ColumnSpan="2" Grid.Row="4" Grid.RowSpan="1" Style="{StaticResource BorderKey}" >
+                <TextBlock Text="9" Style="{StaticResource TextBlockKey}" />
+            </Border>
+            <Border Name="BorderNumPlus"  Grid.Column="45" Grid.ColumnSpan="2" Grid.Row="4" Grid.RowSpan="2" Style="{StaticResource BorderKey}" >
+                <TextBlock Text="+" Style="{StaticResource TextBlockKey}" />
+            </Border>
+            <Border Name="BorderNum4"  Grid.Column="39" Grid.ColumnSpan="2" Grid.Row="5" Grid.RowSpan="1" Style="{StaticResource BorderKey}" >
+                <TextBlock Text="4" Style="{StaticResource TextBlockKey}" />
+            </Border>
+            <Border Name="BorderNum5"  Grid.Column="41" Grid.ColumnSpan="2" Grid.Row="5" Grid.RowSpan="1" Style="{StaticResource BorderKey}" >
+                <TextBlock Text="5" Style="{StaticResource TextBlockKey}" />
+            </Border>
+            <Border Name="BorderNum6"  Grid.Column="43" Grid.ColumnSpan="2" Grid.Row="5" Grid.RowSpan="1" Style="{StaticResource BorderKey}" >
+                <TextBlock Text="6" Style="{StaticResource TextBlockKey}" />
+            </Border>
+            <Border Name="BorderNum1"  Grid.Column="39" Grid.ColumnSpan="2" Grid.Row="6" Grid.RowSpan="1" Style="{StaticResource BorderKey}" >
+                <TextBlock Text="1" Style="{StaticResource TextBlockKey}" />
+            </Border>
+            <Border Name="BorderNum2"  Grid.Column="41" Grid.ColumnSpan="2" Grid.Row="6" Grid.RowSpan="1" Style="{StaticResource BorderKey}" >
+                <TextBlock Text="2" Style="{StaticResource TextBlockKey}" />
+            </Border>
+            <Border Name="BorderNum3"  Grid.Column="43" Grid.ColumnSpan="2" Grid.Row="6" Grid.RowSpan="1" Style="{StaticResource BorderKey}" >
+                <TextBlock Text="3" Style="{StaticResource TextBlockKey}" />
+            </Border>
+            <Border Name="BorderNumReturn"  Grid.Column="45" Grid.ColumnSpan="2" Grid.Row="6" Grid.RowSpan="2" Style="{StaticResource BorderKey}" >
+                <TextBlock Text="Enter" Style="{StaticResource TextBlockKey}" />
+            </Border>
+            <Border Name="BorderNum0"  Grid.Column="39" Grid.ColumnSpan="4" Grid.Row="7" Grid.RowSpan="1" Style="{StaticResource BorderKey}" >
+                <TextBlock Text="0" Style="{StaticResource TextBlockKey}" />
+            </Border>
+            <Border Name="BorderNumPeriod"  Grid.Column="43" Grid.ColumnSpan="2" Grid.Row="7" Grid.RowSpan="1" Style="{StaticResource BorderKey}" >
+                <TextBlock Text="." Style="{StaticResource TextBlockKey}" />
+            </Border>
+
+
+        </Grid>
         
-        <GridSplitter Grid.Column="1" Grid.RowSpan="2" Width="5" HorizontalAlignment="Stretch" />
         
+        <Border Grid.Column="1" Grid.RowSpan="2" Background="DarkGray"/>
         <Button Grid.Column="2" Name="btnStart" Content="Start" Click="btnStart_Click" />
         <Button Grid.Column="3" Name="btnStop" Content="Stop" Click="btnStop_Click" />
         <Button Grid.Column="4" Name="btnPause" Content="Pause" Click="btnPause_Click" />
