@@ -1,5 +1,6 @@
 ﻿using MahApps.Metro.Controls;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -126,6 +127,8 @@ namespace SimpleLogger
 
         void InvokeUIAction(int keyCode, int time, bool isPsuh)
         {
+            KeysModel km = new KeysModel();
+
             int h = time / H_MASK;
             time -= h * H_MASK;
             int m = time / M_MASK;
@@ -133,18 +136,52 @@ namespace SimpleLogger
             int s = time / S_MASK;
             time -= s * S_MASK;
 
-            if (keyCode >= 33 && keyCode <= 96)
+            km.KeyIndex = keyCode;
+
+            if(km.KeyIndex > 0)
             {
-                char c = (char)keyCode;
-                string str = c + "키";
-                tbxLog.AppendText($"[{h.ToString("00")}:{m.ToString("00")}:{s.ToString("00")}:{time.ToString("000")}] {str} , {isPsuh}\n");
-            }
-            else
-            {
+                UIElement uieTest = GridKeyLayout.Children[km.KeyIndex];
+                Border bTest = (Border)uieTest;
+                if (isPsuh)
+                {
+                    bTest.Background = Brushes.Red;
+                }
+                else
+                {
+                    bTest.Background = Brushes.LightGray;
+                }
+
                 tbxLog.AppendText($"[{h.ToString("00")}:{m.ToString("00")}:{s.ToString("00")}:{time.ToString("000")}] {keyCode} , {isPsuh}\n");
+                tbxLog.ScrollToEnd(); // 스크롤 아래로
+
+            }
+        }
+
+        int count = 0;
+
+        private void btnTest1_Click(object sender, RoutedEventArgs e)
+        {
+            //Border0.Background = new SolidColorBrush(Color.FromArgb(80, 255, 0, 0));
+
+            // tbxLog.AppendText(KeysEnum.A.ToString());
+
+
+            UIElementCollection eee = GridKeyLayout.Children;
+
+            tbxLog.AppendText($"{count.ToString()}\n");
+
+            Border b;
+            if (count > 0)
+            {
+                b = (Border)eee[count];
+                b.Background = Brushes.LightGray;
             }
 
-            tbxLog.ScrollToEnd(); // 스크롤 아래로
+            b = (Border)eee[count++];
+            b.Background = Brushes.Red;
+
+            
+            // int countCont = GridKeyLayout.Children.Count;
         }
     }
 }
