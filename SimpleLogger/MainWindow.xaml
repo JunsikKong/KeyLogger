@@ -452,6 +452,6 @@
 
         <TextBox Grid.Column="1" Grid.ColumnSpan="3" Grid.Row="2" Grid.RowSpan="1" Name="tbxLog" VerticalScrollBarVisibility="Visible" IsReadOnly="True"/>
 
-        <TextBlock Name="txtMessage" Grid.Column="1" Grid.ColumnSpan="3" Grid.Row="3" Grid.RowSpan="1" FontWeight="Bold" Foreground="blue" FontSize="18"/>
+        <TextBlock Name="txtMessage" Grid.Column="1" Grid.ColumnSpan="3" Grid.Row="3" Grid.RowSpan="1" FontWeight="Bold" Foreground="blue" FontSize="15"/>
     </Grid>
 </mah:MetroWindow>
