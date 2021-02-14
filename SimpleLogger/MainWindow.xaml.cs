@@ -25,11 +25,13 @@ namespace SimpleLogger
     /// </summary>
     public partial class MainWindow
     {
-        const int H_MASK = 1000 * 60 * 60;
-        const int M_MASK = 1000 * 60;
-        const int S_MASK = 1000;
-
         Thread RunThread = null;
+        KeysModel km = new KeysModel();
+
+        private double pauseTime = 0;
+        private bool isThreadEnd = false;
+        private bool isTimeSave = false;
+
 
         [DllImport("user32.dll")]
         public static extern UInt16 GetAsyncKeyState(Int32 vKey);
@@ -38,52 +40,20 @@ namespace SimpleLogger
             InitializeComponent();
         }
 
-        private void btnStart_Click(object sender, RoutedEventArgs e)
+        void ThreadExit(Thread tr, bool isDelay)
         {
+            tr.Interrupt();
 
-            if (RunThread==null)
+            RunThread = null;
+
+            while (isThreadEnd == false && isDelay)
             {
-                RunThread = new Thread(() => RunAct());
-                RunThread.IsBackground = true;
+                Thread.Sleep(1);
             }
 
-            if (!RunThread.IsAlive)
-            {
-                string nowTime = DateTime.Now.ToString("yyyy-MM-dd, HH:mm:ss");
-                tbxLog.AppendText($"[{nowTime}] Thread 실행\n");
-                tbxLog.ScrollToEnd();
-
-                RunThread.Start();
-            }
-            else
-            {
-                tbxLog.AppendText("이미 실행중 입니다.\n");
-                tbxLog.ScrollToEnd();
-            }
+            isThreadEnd = false;
         }
 
-        private void btnStop_Click(object sender, RoutedEventArgs e)
-        {
-            if (RunThread.IsAlive)
-            {
-                RunThread.Interrupt();
-                RunThread = null;
-
-                string nowTime = DateTime.Now.ToString("yyyy-MM-dd, HH:mm:ss");
-                tbxLog.AppendText($"[{nowTime}] Thread 종료\n");
-                tbxLog.ScrollToEnd();
-            }
-            else
-            {
-                tbxLog.AppendText("실행중이 아닙니다.\n");
-                tbxLog.ScrollToEnd();
-            }
-        }
-
-        private void btnPause_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
 
         void RunAct()
         {
@@ -105,83 +75,143 @@ namespace SimpleLogger
 
                         bool isPush = (current > 1) ? true : false;
 
-
                         if (isPush != isPrevPush[i])
                         {
-                            this.Invoke(new Action(() => InvokeUIAction(i, (int)sw.ElapsedMilliseconds, isPush)));
+                            this.Invoke(new Action(() => InvokeUIAction(i, sw.ElapsedMilliseconds + pauseTime, isPush)));
                             isPrevPush[i] = isPush;
                         }
                     }
                     Thread.Sleep(1);
                 }
             }
-            catch(ThreadInterruptedException e)
+            catch(ThreadInterruptedException)
             {
-
+                pauseTime = isTimeSave ? pauseTime + sw.ElapsedMilliseconds : 0;
+                isThreadEnd = true;
             }
             finally
             {
-
+                
             }
         }
 
-        void InvokeUIAction(int keyCode, int time, bool isPsuh)
+        void InvokeUIAction(int keyCode, double time, bool isPsuh)
         {
-            KeysModel km = new KeysModel();
-
-            int h = time / H_MASK;
-            time -= h * H_MASK;
-            int m = time / M_MASK;
-            time -= m * M_MASK;
-            int s = time / S_MASK;
-            time -= s * S_MASK;
-
             km.KeyIndex = keyCode;
 
-            if(km.KeyIndex > 0)
+            if(km.KeyIndex >= 0)
             {
-                UIElement uieTest = GridKeyLayout.Children[km.KeyIndex];
-                Border bTest = (Border)uieTest;
+                UIElement uie = GridKeyLayout.Children[km.KeyIndex];
+                Border bdr = (Border)uie;
                 if (isPsuh)
                 {
-                    bTest.Background = Brushes.Red;
+                    bdr.Background = Brushes.Red;
                 }
                 else
                 {
-                    bTest.Background = Brushes.LightGray;
+                    bdr.Background = Brushes.LightGray;
                 }
+            }
 
-                tbxLog.AppendText($"[{h.ToString("00")}:{m.ToString("00")}:{s.ToString("00")}:{time.ToString("000")}] {keyCode} , {isPsuh}\n");
-                tbxLog.ScrollToEnd(); // 스크롤 아래로
+            string timeStr = Ms2Str(time);
 
+            tbxLog.AppendText($"[{timeStr}] {keyCode} , {isPsuh}\n");
+            tbxLog.ScrollToEnd(); // 스크롤 아래로
+        }
+
+
+        string Ms2Str(double time)
+        {
+            string result = "";
+
+            int h = (int)(time / (1000 * 60 * 60));
+            time -= h * (1000 * 60 * 60);
+            int m = (int)(time / (1000 * 60));
+            time -= m *     (1000 * 60);
+            int s = (int)(time / (1000));
+            time -= s *     (1000);
+
+            result = h.ToString("00") + ":" +
+                m.ToString("00") + ":" +
+                s.ToString("00") + ":" +
+                time.ToString("000");
+
+            return result;
+        }
+
+        private void btnStart_Click(object sender, RoutedEventArgs e)
+        {
+            if (RunThread == null)
+            {
+                RunThread = new Thread(() => RunAct());
+                RunThread.IsBackground = true;
+
+                string nowTime = DateTime.Now.ToString("yyyy-MM-dd, HH:mm:ss");
+                MessageTextBlock(txtMessage, $"[{nowTime}] Thread START\n");
+
+                RunThread.Start();
+            }
+            else
+            {
+                MessageTextBlock(txtMessage, "[경고] 이미 실행중입니다. - START");
             }
         }
 
-        int count = 0;
-
-        private void btnTest1_Click(object sender, RoutedEventArgs e)
+        private void btnStop_Click(object sender, RoutedEventArgs e)
         {
-            //Border0.Background = new SolidColorBrush(Color.FromArgb(80, 255, 0, 0));
-
-            // tbxLog.AppendText(KeysEnum.A.ToString());
-
-
-            UIElementCollection eee = GridKeyLayout.Children;
-
-            tbxLog.AppendText($"{count.ToString()}\n");
-
-            Border b;
-            if (count > 0)
+            if (RunThread != null)
             {
-                b = (Border)eee[count];
-                b.Background = Brushes.LightGray;
+                isTimeSave = false;
+
+                ThreadExit(RunThread, true);
+
+                string nowTime = DateTime.Now.ToString("yyyy-MM-dd, HH:mm:ss");
+                MessageTextBlock(txtMessage, $"[{nowTime}] Thread STOP\n");
             }
+            else
+            {
+                MessageTextBlock(txtMessage, "[경고] 실행중이 아닙니다. - STOP");
+            }
+        }
 
-            b = (Border)eee[count++];
-            b.Background = Brushes.Red;
+        private void btnPause_Click(object sender, RoutedEventArgs e)
+        {
+            if (RunThread != null)
+            {
+                isTimeSave = true;
 
-            
-            // int countCont = GridKeyLayout.Children.Count;
+                ThreadExit(RunThread, true);
+
+                string nowTime = DateTime.Now.ToString("yyyy-MM-dd, HH:mm:ss");
+                MessageTextBlock(txtMessage, $"[{nowTime}] Thread PAUSE ({pauseTime})\n");
+            }
+            else
+            {
+                MessageTextBlock(txtMessage, "[경고] 실행중이 아닙니다. - PAUSE");
+            }
+        }
+
+        private void btnSave_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void btnLoad_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void btnClear_Click(object sender, RoutedEventArgs e)
+        {
+
+            tbxLog.Text = "";
+            string nowTime = DateTime.Now.ToString("yyyy-MM-dd, HH:mm:ss");
+            MessageTextBlock(txtMessage, $"[{nowTime}] Log Clear\n");
+        }
+
+        void MessageTextBlock(TextBlock tbx, string str)
+        {
+            tbx.Text = str;
         }
     }
 }

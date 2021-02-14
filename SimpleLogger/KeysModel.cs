@@ -9,7 +9,7 @@ namespace SimpleLogger
     public class KeysModel
     {
 
-        public static readonly int[] KeyCodeArray
+        private static readonly int[] KeyCodeArray
             = { 27, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, 123,
 
                 192, 49, 50, 51, 52, 53, 54, 55, 56, 57, 48, 189, 187, 8,
@@ -32,6 +32,7 @@ namespace SimpleLogger
 
         private int _keyCode = -1;
 
+
         public int KeyIndex
         {
             set
@@ -47,9 +48,8 @@ namespace SimpleLogger
                         return i;
                     }
                 }
-                return 0;
+                return -1;
             }
         }
-
     }
 }
