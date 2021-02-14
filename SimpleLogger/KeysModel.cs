@@ -32,7 +32,6 @@ namespace SimpleLogger
 
         private int _keyCode = -1;
 
-
         public int KeyIndex
         {
             set

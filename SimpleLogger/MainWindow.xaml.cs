@@ -1,8 +1,10 @@
 ﻿using MahApps.Metro.Controls;
+using Microsoft.Win32;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -29,7 +31,8 @@ namespace SimpleLogger
         KeysModel km = new KeysModel();
 
         private double pauseTime = 0;
-        private bool isThreadEnd = false;
+        private bool isThreadEnding = false;
+        private bool isThreadRun = false;
         private bool isTimeSave = false;
 
 
@@ -46,12 +49,12 @@ namespace SimpleLogger
 
             RunThread = null;
 
-            while (isThreadEnd == false && isDelay)
+            while (isThreadEnding == false && isDelay)
             {
                 Thread.Sleep(1);
             }
 
-            isThreadEnd = false;
+            isThreadEnding = false;
         }
 
 
@@ -87,7 +90,7 @@ namespace SimpleLogger
             catch(ThreadInterruptedException)
             {
                 pauseTime = isTimeSave ? pauseTime + sw.ElapsedMilliseconds : 0;
-                isThreadEnd = true;
+                isThreadEnding = true;
             }
             finally
             {
@@ -141,19 +144,46 @@ namespace SimpleLogger
 
         private void btnStart_Click(object sender, RoutedEventArgs e)
         {
-            if (RunThread == null)
-            {
-                RunThread = new Thread(() => RunAct());
-                RunThread.IsBackground = true;
 
-                string nowTime = DateTime.Now.ToString("yyyy-MM-dd, HH:mm:ss");
-                MessageTextBlock(txtMessage, $"[{nowTime}] Thread START\n");
+            if (!isThreadRun) {
+                if (RunThread == null)
+                {
+                    RunThread = new Thread(() => RunAct());
+                    RunThread.IsBackground = true;
 
-                RunThread.Start();
+                    string nowTime = DateTime.Now.ToString("yyyy-MM-dd, HH:mm:ss");
+                    MessageTextBlock(txtMessage, $"[{nowTime}] Thread START\n");
+
+                    btnStart.Content = "Pause";
+                    
+                    RunThread.Start();
+
+                    isThreadRun = true;
+                }
+                else
+                {
+                    MessageTextBlock(txtMessage, "[경고] 이미 실행중입니다. - START");
+                }
             }
             else
             {
-                MessageTextBlock(txtMessage, "[경고] 이미 실행중입니다. - START");
+                if (RunThread != null)
+                {
+                    isThreadRun = false;
+
+                    isTimeSave = true;
+
+                    ThreadExit(RunThread, true);
+
+                    string nowTime = DateTime.Now.ToString("yyyy-MM-dd, HH:mm:ss");
+                    MessageTextBlock(txtMessage, $"[{nowTime}] Thread PAUSE ({pauseTime})\n");
+
+                    btnStart.Content = "Start";
+                }
+                else
+                {
+                    MessageTextBlock(txtMessage, "[경고] 실행중이 아닙니다. - PAUSE");
+                }
             }
         }
 
@@ -167,6 +197,10 @@ namespace SimpleLogger
 
                 string nowTime = DateTime.Now.ToString("yyyy-MM-dd, HH:mm:ss");
                 MessageTextBlock(txtMessage, $"[{nowTime}] Thread STOP\n");
+
+                btnStart.Content = "Start";
+
+                isThreadRun = false;
             }
             else
             {
@@ -174,39 +208,31 @@ namespace SimpleLogger
             }
         }
 
-        private void btnPause_Click(object sender, RoutedEventArgs e)
-        {
-            if (RunThread != null)
-            {
-                isTimeSave = true;
-
-                ThreadExit(RunThread, true);
-
-                string nowTime = DateTime.Now.ToString("yyyy-MM-dd, HH:mm:ss");
-                MessageTextBlock(txtMessage, $"[{nowTime}] Thread PAUSE ({pauseTime})\n");
-            }
-            else
-            {
-                MessageTextBlock(txtMessage, "[경고] 실행중이 아닙니다. - PAUSE");
-            }
-        }
 
         private void btnSave_Click(object sender, RoutedEventArgs e)
         {
 
-        }
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
 
-        private void btnLoad_Click(object sender, RoutedEventArgs e)
-        {
+            saveFileDialog.Filter = "Log file (*.kjs; *.txt)|*.kjs|Text file (*.txt)|*.txt";
+
+            if (saveFileDialog.ShowDialog() == true)
+                File.WriteAllText(saveFileDialog.FileName, tbxLog.Text);
 
         }
 
         private void btnClear_Click(object sender, RoutedEventArgs e)
         {
-
-            tbxLog.Text = "";
-            string nowTime = DateTime.Now.ToString("yyyy-MM-dd, HH:mm:ss");
-            MessageTextBlock(txtMessage, $"[{nowTime}] Log Clear\n");
+            if(MessageBox.Show("로그를 지우겠습니까?", "알림", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+            {
+                tbxLog.Text = "";
+                string nowTime = DateTime.Now.ToString("yyyy-MM-dd, HH:mm:ss");
+                MessageTextBlock(txtMessage, $"[{nowTime}] Log Clear");
+            }
+            else
+            {
+                MessageTextBlock(txtMessage, $"[경고] 클리어 취소 - CLEAR");
+            }
         }
 
         void MessageTextBlock(TextBlock tbx, string str)
