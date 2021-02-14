@@ -447,7 +447,7 @@
         <Button Grid.Column="3" Grid.Row="0" Name="btnSave" Content="Save" Click="btnSave_Click" />
         <Button Grid.Column="4" Grid.Row="0" Name="btnClear" Content="Clear" Click="btnClear_Click" />
 
-        <TextBox Name="tbxLog" Grid.Column="1" Grid.ColumnSpan="4" Grid.Row="1" Grid.RowSpan="1" VerticalScrollBarVisibility="Visible" IsReadOnly="True"/>
+        <TextBox Name="tbxLog" Grid.Column="1" Grid.ColumnSpan="4" Grid.Row="1" Grid.RowSpan="1" VerticalScrollBarVisibility="Visible" IsReadOnly="True" FontSize="14"/>
 
         <TextBlock Name="txtMessage" Grid.Column="1" Grid.ColumnSpan="4" Grid.Row="3" Grid.RowSpan="1" FontWeight="Bold" Foreground="blue" FontSize="15"/>
     </Grid>
