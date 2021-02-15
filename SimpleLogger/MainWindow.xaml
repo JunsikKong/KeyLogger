@@ -400,43 +400,43 @@
                 <TextBlock Text="-" Style="{StaticResource TextBlockKey}" />
             </Border>
             <Border Grid.Column="39" Grid.ColumnSpan="2" Grid.Row="4" Grid.RowSpan="1" Style="{StaticResource BorderKey}" >
-                <TextBlock Text="7" Style="{StaticResource TextBlockKey}" />
+                <TextBlock Text="Num7" Style="{StaticResource TextBlockKey}" />
             </Border>
             <Border Grid.Column="41" Grid.ColumnSpan="2" Grid.Row="4" Grid.RowSpan="1" Style="{StaticResource BorderKey}" >
-                <TextBlock Text="8" Style="{StaticResource TextBlockKey}" />
+                <TextBlock Text="Num8" Style="{StaticResource TextBlockKey}" />
             </Border>
             <Border Grid.Column="43" Grid.ColumnSpan="2" Grid.Row="4" Grid.RowSpan="1" Style="{StaticResource BorderKey}" >
-                <TextBlock Text="9" Style="{StaticResource TextBlockKey}" />
+                <TextBlock Text="Num9" Style="{StaticResource TextBlockKey}" />
             </Border>
             <Border Grid.Column="45" Grid.ColumnSpan="2" Grid.Row="4" Grid.RowSpan="2" Style="{StaticResource BorderKey}" >
                 <TextBlock Text="+" Style="{StaticResource TextBlockKey}" />
             </Border>
             <Border Grid.Column="39" Grid.ColumnSpan="2" Grid.Row="5" Grid.RowSpan="1" Style="{StaticResource BorderKey}" >
-                <TextBlock Text="4" Style="{StaticResource TextBlockKey}" />
+                <TextBlock Text="Num4" Style="{StaticResource TextBlockKey}" />
             </Border>
             <Border Grid.Column="41" Grid.ColumnSpan="2" Grid.Row="5" Grid.RowSpan="1" Style="{StaticResource BorderKey}" >
-                <TextBlock Text="5" Style="{StaticResource TextBlockKey}" />
+                <TextBlock Text="Num5" Style="{StaticResource TextBlockKey}" />
             </Border>
             <Border Grid.Column="43" Grid.ColumnSpan="2" Grid.Row="5" Grid.RowSpan="1" Style="{StaticResource BorderKey}" >
-                <TextBlock Text="6" Style="{StaticResource TextBlockKey}" />
+                <TextBlock Text="Num6" Style="{StaticResource TextBlockKey}" />
             </Border>
             <Border Grid.Column="39" Grid.ColumnSpan="2" Grid.Row="6" Grid.RowSpan="1" Style="{StaticResource BorderKey}" >
-                <TextBlock Text="1" Style="{StaticResource TextBlockKey}" />
+                <TextBlock Text="Num1" Style="{StaticResource TextBlockKey}" />
             </Border>
             <Border Grid.Column="41" Grid.ColumnSpan="2" Grid.Row="6" Grid.RowSpan="1" Style="{StaticResource BorderKey}" >
-                <TextBlock Text="2" Style="{StaticResource TextBlockKey}" />
+                <TextBlock Text="Num2" Style="{StaticResource TextBlockKey}" />
             </Border>
             <Border Grid.Column="43" Grid.ColumnSpan="2" Grid.Row="6" Grid.RowSpan="1" Style="{StaticResource BorderKey}" >
-                <TextBlock Text="3" Style="{StaticResource TextBlockKey}" />
+                <TextBlock Text="Num3" Style="{StaticResource TextBlockKey}" />
             </Border>
             <Border Grid.Column="45" Grid.ColumnSpan="2" Grid.Row="6" Grid.RowSpan="2" Style="{StaticResource BorderKey}" >
                 <TextBlock Text="Enter" Style="{StaticResource TextBlockKey}" />
             </Border>
             <Border Grid.Column="39" Grid.ColumnSpan="4" Grid.Row="7" Grid.RowSpan="1" Style="{StaticResource BorderKey}" >
-                <TextBlock Text="0" Style="{StaticResource TextBlockKey}" />
+                <TextBlock Text="Num0" Style="{StaticResource TextBlockKey}" />
             </Border>
             <Border Grid.Column="43" Grid.ColumnSpan="2" Grid.Row="7" Grid.RowSpan="1" Style="{StaticResource BorderKey}" >
-                <TextBlock Text="." Style="{StaticResource TextBlockKey}" />
+                <TextBlock Text="Num." Style="{StaticResource TextBlockKey}" />
             </Border>
 
 

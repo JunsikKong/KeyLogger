@@ -29,8 +29,6 @@ namespace SimpleLogger
     {
         Thread RunMainThread = null;
 
-        KeysModel km = new KeysModel();
-
         private double pauseTime = 0;
 
         private bool isThreadEnding = false;
@@ -43,6 +41,8 @@ namespace SimpleLogger
         public MainWindow()
         {
             InitializeComponent();
+
+            KeyModel.SaveNumkeyIndex();
         }
 
         private void btnStart_Click(object sender, RoutedEventArgs e)
@@ -76,7 +76,7 @@ namespace SimpleLogger
 
                     isTimeSave = true;
 
-                    ThreadExit(RunMainThread, true);
+                    ThreadExit(ref RunMainThread, true);
 
                     string nowTime = DateTime.Now.ToString("yyyy-MM-dd, HH:mm:ss");
                     MessageTextBlock(txtMessage, $"[{nowTime}] Thread PAUSE ({pauseTime})\n");
@@ -96,7 +96,7 @@ namespace SimpleLogger
             {
                 isTimeSave = false;
 
-                ThreadExit(RunMainThread, true);
+                ThreadExit(ref RunMainThread, true);
 
                 string nowTime = DateTime.Now.ToString("yyyy-MM-dd, HH:mm:ss");
                 MessageTextBlock(txtMessage, $"[{nowTime}] Thread STOP\n");
@@ -134,13 +134,7 @@ namespace SimpleLogger
             }
             else
             {
-
-
-
                 MessageTextBlock(txtMessage, $"[경고] 클리어 취소 - CLEAR");
-
-
-
             }
         }
 
@@ -148,28 +142,55 @@ namespace SimpleLogger
 
         void RunAct()
         {
+            bool[] isPrevPush = new bool[0xFE];
+
+            for (int i = 0; i < 0xFE; i++) isPrevPush[i] = false;
+
+            int[] alphaIdxArr = KeyModel.GetAlphabetIndexArray();
+            int[] numIdxArr = KeyModel.GetNumpadIndexArray();
+
             Stopwatch sw = new Stopwatch();
 
             sw.Start();
 
             try
             {
-                bool[] isPrevPush = new bool[0xFE];
-
-                for (int i = 0; i < 0xFE; i++) isPrevPush[i] = false;
-
                 while (true)
                 {
-                    for (int i = 0; i < 0xFE; i++)
+                    for (int _keyCode = 1; _keyCode < 0xFE; _keyCode++)
                     {
-                        int current = GetAsyncKeyState(i);
+                        switch (_keyCode) // shift, ctrl, alt 누르면 키코드 두개 입력되지 않도록 continue
+                        {
+                            case KeyModel.SHIFT_KEYCODE:
+                            case KeyModel.CTRL_KEYCODE:
+                            case KeyModel.ALT_KEYCODE:
+                                continue;
+                        }
+
+                        int current = GetAsyncKeyState(_keyCode);
 
                         bool isPush = (current > 1) ? true : false;
 
-                        if (isPush != isPrevPush[i])
+                        if (isPush != isPrevPush[_keyCode]) // 키 눌림상태 이전과 현재가 다를 경우.
                         {
-                            this.Invoke(new Action(() => InvokeUIActionLogInput(i, sw.ElapsedMilliseconds + pauseTime, isPush)));
-                            isPrevPush[i] = isPush;
+                            this.Invoke(new Action(() => InvokeUIAction_LogInput(_keyCode, sw.ElapsedMilliseconds + pauseTime, isPush)));
+
+                            if (!isPush) // 키를 놓을 경우에
+                            {
+                                switch (_keyCode)
+                                {
+                                    case KeyModel.CAPSLOCK_KEYCODE:
+                                        this.Invoke(new Action(() => InvokeUIAction_LockKey(_keyCode, alphaIdxArr)));
+                                        break;
+                                    case KeyModel.NUMLOCK_KEYCODE:
+                                        this.Invoke(new Action(() => InvokeUIAction_LockKey(_keyCode, numIdxArr)));
+                                        break;
+                                    case KeyModel.SCROLLLOCK_KEYCODE:
+                                        break;
+                                }
+                            }
+
+                            isPrevPush[_keyCode] = isPush; // 현재 키 상태를 이전 상태에 저장.
                         }
                     }
                     Thread.Sleep(1);
@@ -186,78 +207,87 @@ namespace SimpleLogger
             }
         }
 
-        void InvokeUIActionLogInput(int keyCode, double time, bool isPsuh)
+        void InvokeUIAction_LogInput(int _keyCode, double _time, bool _isPush)
         {
-            km.SetKeyCode = keyCode;
+            int keyidx = KeyModel.GetKeyIndex(_keyCode);
 
-            if(km.GetKeyIndex >= 0)
+            if(keyidx >= 0)
             {
-                UIElement uie = GridKeyLayout.Children[km.GetKeyIndex];
-                Border bdr = (Border)uie;
-                UIElement uie2 = bdr.Child;
-                TextBlock tbx = (TextBlock)uie2;
-                if (isPsuh)
+                Border bdr = GetBorder(keyidx);
+                TextBlock tbx = GetTextBlock(keyidx);
+
+                if (_isPush)
                 {
-                    bdr.Background = Brushes.Red;
-                    tbx.Foreground = Brushes.White;
+                    bdr.Background = new SolidColorBrush(LayoutModel.PushBackColor);
+                    tbx.Foreground = new SolidColorBrush(LayoutModel.PushFontColor);
                 }
                 else
                 {
-                    bdr.Background = Brushes.LightGray;
-                    tbx.Foreground = Brushes.Black;
+                    bdr.Background = new SolidColorBrush(LayoutModel.PullBackColor);
+                    tbx.Foreground = new SolidColorBrush(LayoutModel.PullFontColor);
                 }
             }
 
-            string timeStr = Ms2Str(time);
+            string timeStr = Ms2Str(_time);
 
-            string keyName;
+            string keyName = KeyModel.GetKeyName(_keyCode);
 
-            keyName = km.GetKeyName;
+            string isPushStr = _isPush ? "PUSH" : "PULL";
 
-            tbxLog.AppendText($"[{timeStr}] {keyName} , {isPsuh}\n");
+            tbxLog.AppendText($"[{timeStr}] [{isPushStr}]\t {keyName}\n");
             tbxLog.ScrollToEnd(); // 스크롤 아래로
         }
 
-        void RunLockState()
+
+        void InvokeUIAction_LockKey(int keyCode, int[] indexArray)
         {
-            try
+            switch (keyCode)
             {
-                bool isPrevNumLcokState = Keyboard.IsKeyToggled(Key.NumLock);
-                bool isPrevCapsLcokState = Keyboard.IsKeyToggled(Key.CapsLock);
-                bool isPrevScrollLcokState = Keyboard.IsKeyToggled(Key.Scroll);
-
-                while (true)
-                {
-                    bool isCurrentNumLcokState = Keyboard.IsKeyToggled(Key.NumLock);
-                    bool isCurrentCapsLcokState = Keyboard.IsKeyToggled(Key.CapsLock);
-                    bool isCurrentScrollLcokState = Keyboard.IsKeyToggled(Key.Scroll);
-
-                    if (isPrevNumLcokState != isCurrentNumLcokState)
+                case KeyModel.CAPSLOCK_KEYCODE:
                     {
-                        //InvokeUIActionNumLockStateChange(isCurrentNumLcokState);
-                        isPrevNumLcokState = isCurrentNumLcokState;
+                        foreach (int i in indexArray)
+                        {
+                            TextBlock tbx = GetTextBlock(i);
+                            if (Keyboard.IsKeyToggled(Key.CapsLock))
+                            {
+                                tbx.Text = KeyModel.GetKeyNameToIndex(i).ToUpper();
+                            }
+                            else
+                            {
+                                tbx.Text = KeyModel.GetKeyNameToIndex(i).ToLower();
+                            }
+                        }
+
+                        break;
                     }
-                    if (isPrevCapsLcokState != isCurrentCapsLcokState)
+                case KeyModel.NUMLOCK_KEYCODE:
                     {
-                        //InvokeUIActionCapsLockStateChange(isCurrentCapsLcokState);
-                        isPrevCapsLcokState = isCurrentCapsLcokState;
+                        bool isState = Keyboard.IsKeyToggled(Key.NumLock);
+
+                        KeyModel.SwapNumKeyCodeArray(isState);
+
+                        foreach (int i in indexArray)
+                        {
+                            TextBlock tbx = GetTextBlock(i);
+
+                            string str;
+
+                            if (isState)
+                            {
+                                str = KeyModel.GetKeyNameToIndex(i);
+                            }
+                            else
+                            {
+                                str = KeyModel.GetKeyName(KeyModel.GetKeyCode(i));
+                            }
+
+                            tbx.Text = str;
+                        }
+
+                        break;
                     }
-                    if (isPrevScrollLcokState != isCurrentScrollLcokState)
-                    {
-                        //InvokeUIActionScrollLockStateChange(isCurrentScrollLcokState);
-                        isPrevScrollLcokState = isCurrentScrollLcokState;
-                    }
-
-                    Thread.Sleep(1);
-                }
-            }
-            catch (ThreadInterruptedException)
-            {
-
-            }
-            finally
-            {
-
+                case KeyModel.SCROLLLOCK_KEYCODE:
+                    break;
             }
         }
 
@@ -285,11 +315,11 @@ namespace SimpleLogger
             return result;
         }
 
-        void ThreadExit(Thread tr, bool isDelay)
+        void ThreadExit(ref Thread tr, bool isDelay)
         {
             tr.Interrupt();
 
-            RunMainThread = null;
+            tr = null;
 
             while (isThreadEnding == false && isDelay)
             {
@@ -297,6 +327,16 @@ namespace SimpleLogger
             }
 
             isThreadEnding = false;
+        }
+
+        Border GetBorder(int _idx)
+        {
+            return (Border)GridKeyLayout.Children[_idx];
+        }
+
+        TextBlock GetTextBlock(int _idx)
+        {
+            return (TextBlock)GetBorder(_idx).Child;
         }
     }
 }
