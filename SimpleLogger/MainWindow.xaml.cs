@@ -42,7 +42,7 @@ namespace SimpleLogger
         {
             InitializeComponent();
 
-            KeyModel.SaveNumkeyIndex();
+            UI_Update(true, true);
         }
 
         private void btnStart_Click(object sender, RoutedEventArgs e)
@@ -144,10 +144,10 @@ namespace SimpleLogger
         {
             bool[] isPrevPush = new bool[0xFE];
 
-            for (int i = 0; i < 0xFE; i++) isPrevPush[i] = false;
-
-            int[] alphaIdxArr = KeyModel.GetAlphabetIndexArray();
-            int[] numIdxArr = KeyModel.GetNumpadIndexArray();
+            for (int i = 0; i < 0xFE; i++)
+            {
+                isPrevPush[i] = false;
+            }
 
             Stopwatch sw = new Stopwatch();
 
@@ -180,10 +180,10 @@ namespace SimpleLogger
                                 switch (_keyCode)
                                 {
                                     case KeyModel.CAPSLOCK_KEYCODE:
-                                        this.Invoke(new Action(() => InvokeUIAction_LockKey(_keyCode, alphaIdxArr)));
+                                        this.Invoke(new Action(() => InvokeUIAction_LockKey(_keyCode)));
                                         break;
                                     case KeyModel.NUMLOCK_KEYCODE:
-                                        this.Invoke(new Action(() => InvokeUIAction_LockKey(_keyCode, numIdxArr)));
+                                        this.Invoke(new Action(() => InvokeUIAction_LockKey(_keyCode)));
                                         break;
                                     case KeyModel.SCROLLLOCK_KEYCODE:
                                         break;
@@ -209,28 +209,23 @@ namespace SimpleLogger
 
         void InvokeUIAction_LogInput(int _keyCode, double _time, bool _isPush)
         {
-            int keyidx = KeyModel.GetKeyIndex(_keyCode);
+            var keyidx = KeyModel.KeyCode2Index(_keyCode);
 
-            if(keyidx >= 0)
+            for(int i = 0; i < keyidx.Count; i++)
             {
-                Border bdr = GetBorder(keyidx);
-                TextBlock tbx = GetTextBlock(keyidx);
+                int idx = keyidx[i];
+                if (idx > KeyModel.ERROR_INT)
+                {
+                    Border bdr = GetBorder(idx);
+                    TextBlock tbx = GetTextBlock(idx);
 
-                if (_isPush)
-                {
-                    bdr.Background = new SolidColorBrush(LayoutModel.PushBackColor);
-                    tbx.Foreground = new SolidColorBrush(LayoutModel.PushFontColor);
-                }
-                else
-                {
-                    bdr.Background = new SolidColorBrush(LayoutModel.PullBackColor);
-                    tbx.Foreground = new SolidColorBrush(LayoutModel.PullFontColor);
+                    UI_ColorUpdate(bdr, tbx, _isPush);
                 }
             }
 
             string timeStr = Ms2Str(_time);
 
-            string keyName = KeyModel.GetKeyName(_keyCode);
+            string keyName = KeyModel.KeyCode2KeyName(_keyCode);
 
             string isPushStr = _isPush ? "PUSH" : "PULL";
 
@@ -239,24 +234,18 @@ namespace SimpleLogger
         }
 
 
-        void InvokeUIAction_LockKey(int keyCode, int[] indexArray)
+        void InvokeUIAction_LockKey(int keyCode)
         {
             switch (keyCode)
             {
                 case KeyModel.CAPSLOCK_KEYCODE:
                     {
-                        foreach (int i in indexArray)
-                        {
-                            TextBlock tbx = GetTextBlock(i);
-                            if (Keyboard.IsKeyToggled(Key.CapsLock))
-                            {
-                                tbx.Text = KeyModel.GetKeyNameToIndex(i).ToUpper();
-                            }
-                            else
-                            {
-                                tbx.Text = KeyModel.GetKeyNameToIndex(i).ToLower();
-                            }
-                        }
+                        bool isState = Keyboard.IsKeyToggled(Key.CapsLock);
+
+                        KeyModel.CapsUpdate(isState);
+
+                        // 해당범위 UI 업데이트
+                        UI_Update(true, false, KeyModel.GetCapsIndexArray());
 
                         break;
                     }
@@ -264,25 +253,13 @@ namespace SimpleLogger
                     {
                         bool isState = Keyboard.IsKeyToggled(Key.NumLock);
 
-                        KeyModel.SwapNumKeyCodeArray(isState);
+                        KeyModel.NumUpdate(isState);
 
-                        foreach (int i in indexArray)
-                        {
-                            TextBlock tbx = GetTextBlock(i);
+                        // 해당범위 UI 업데이트
 
-                            string str;
-
-                            if (isState)
-                            {
-                                str = KeyModel.GetKeyNameToIndex(i);
-                            }
-                            else
-                            {
-                                str = KeyModel.GetKeyName(KeyModel.GetKeyCode(i));
-                            }
-
-                            tbx.Text = str;
-                        }
+                        UI_Update(true, false, KeyModel.GetNumIndexArray(true));
+                        UI_Update(true, false, KeyModel.GetNumIndexArray(false));
+                        UI_Update(true, false);
 
                         break;
                     }
@@ -290,6 +267,65 @@ namespace SimpleLogger
                     break;
             }
         }
+
+        void UI_Update(bool _isTextUpdate, bool _isColorUpdate)
+        {
+            int uiCount = GridKeyLayout.Children.Count;
+
+            int[] idx_range_arr = new int[uiCount];
+
+            for(int i=0; i<uiCount; i++)
+            {
+                idx_range_arr[i] = i;
+            }
+
+            UI_Update(_isTextUpdate, _isColorUpdate, idx_range_arr);
+        }
+
+        void UI_Update(bool _isTextUpdate, bool _isColorUpdate, int[] _idx_range)
+        {
+            for (int i = 0; i < _idx_range.Length; i++)
+            {
+                int idx = _idx_range[i];
+
+                if (idx >= GridKeyLayout.Children.Count) continue;
+
+                string keyview = KeyModel.GetKeyView(idx);
+
+                TextBlock tbx = GetTextBlock(idx);
+
+                if (_isTextUpdate)
+                {
+                    tbx.Text = keyview;
+                }
+
+                if (_isColorUpdate)
+                {
+                    Border bdr = GetBorder(idx);
+                    UI_ColorUpdate(bdr, tbx);
+                }
+            }
+        }
+
+        void UI_ColorUpdate(Border _bdr, TextBlock _tbx)
+        {
+            _bdr.Background = LayoutModel.PullBackColor;
+            _tbx.Foreground = LayoutModel.PullFontColor;
+        }
+
+        void UI_ColorUpdate(Border _bdr, TextBlock _tbx, bool _isPush)
+        {
+            if (_isPush)
+            {
+                _bdr.Background = LayoutModel.PushBackColor;
+                _tbx.Foreground = LayoutModel.PushFontColor;
+            }
+            else
+            {
+                UI_ColorUpdate(_bdr, _tbx);
+            }
+        }
+
 
         void MessageTextBlock(TextBlock tbx, string str)
         {
@@ -331,12 +367,20 @@ namespace SimpleLogger
 
         Border GetBorder(int _idx)
         {
-            return (Border)GridKeyLayout.Children[_idx];
+            if (_idx < GridKeyLayout.Children.Count)
+            {
+                return (Border)GridKeyLayout.Children[_idx];
+            }
+            return new Border();
         }
 
         TextBlock GetTextBlock(int _idx)
         {
-            return (TextBlock)GetBorder(_idx).Child;
+            if (_idx < GridKeyLayout.Children.Count)
+            {
+                return (TextBlock)GetBorder(_idx).Child;
+            }
+            return new TextBlock();
         }
     }
 }

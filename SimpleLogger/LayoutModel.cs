@@ -10,74 +10,20 @@ namespace SimpleLogger
 {
     public static class LayoutModel
     {
-        private static Color PUSH_FONT_COLOR = Color.FromArgb(255, 255, 255, 255);
-        private static Color PUSH_BACK_COLOR = Color.FromArgb(240, 0, 0, 0);
-
-        private static Color PULL_FONT_COLOR = Colors.Black;
-        private static Color PULL_BACK_COLOR = Colors.LightGray;
-
-        public static Color PushFontColor
+        static LayoutModel()
         {
-            get
-            {
-                return PUSH_FONT_COLOR;
-            }
-            set
-            {
-                if(value != null)
-                {
-                    PUSH_FONT_COLOR = value;
-                }
-            }
-
+            PushFontColor = new SolidColorBrush(Color.FromArgb(255, 255, 255, 255));
+            PushBackColor = new SolidColorBrush(Color.FromArgb(240, 0, 0, 0)); 
+            PullFontColor = new SolidColorBrush(Colors.Black);
+            PullBackColor = new SolidColorBrush(Colors.LightGray);
         }
 
-        public static Color PushBackColor
-        {
-            get
-            {
-                return PUSH_BACK_COLOR;
-            }
-            set
-            {
-                if (value != null)
-                {
-                    PUSH_BACK_COLOR = value;
-                }
-            }
+        public static SolidColorBrush PushFontColor { get; set; }
 
-        }
+        public static SolidColorBrush PushBackColor { get; set; }
 
-        public static Color PullFontColor
-        {
-            get
-            {
-                return PULL_FONT_COLOR;
-            }
-            set
-            {
-                if (value != null)
-                {
-                    PULL_FONT_COLOR = value;
-                }
-            }
+        public static SolidColorBrush PullFontColor { get; set; }
 
-        }
-
-        public static Color PullBackColor
-        {
-            get
-            {
-                return PULL_BACK_COLOR;
-            }
-            set
-            {
-                if (value != null)
-                {
-                    PULL_BACK_COLOR = value;
-                }
-            }
-
-        }
+        public static SolidColorBrush PullBackColor { get; set; }
     }
 }
