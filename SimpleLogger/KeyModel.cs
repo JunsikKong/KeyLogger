@@ -61,9 +61,9 @@ namespace SimpleLogger
         //    96, 110
         //};
 
-        public static KeyTable[] kt = new KeyTable[KEY_COUNT];
-        public static KeyTable[] ktNumOn = new KeyTable[CAPS_COUNT];
-        public static KeyTable[] ktNumOff = new KeyTable[CAPS_COUNT];
+        private static KeyTable[] kt = new KeyTable[KEY_COUNT];
+        private static KeyTable[] ktNumOn = new KeyTable[CAPS_COUNT];
+        private static KeyTable[] ktNumOff = new KeyTable[CAPS_COUNT];
         private static readonly int[] capsIdxArray = new int[CAPS_COUNT];
 
         public const int KEY_COUNT = 105;

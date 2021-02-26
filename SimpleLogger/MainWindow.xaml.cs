@@ -54,6 +54,7 @@ namespace SimpleLogger
                     RunMainThread = new Thread(() => RunAct());
                     RunMainThread.IsBackground = true;
 
+                    UI_Update(true, true);
                     string nowTime = DateTime.Now.ToString("yyyy-MM-dd, HH:mm:ss");
                     MessageTextBlock(txtMessage, $"[{nowTime}] Thread START\n");
 
@@ -78,6 +79,7 @@ namespace SimpleLogger
 
                     ThreadExit(ref RunMainThread, true);
 
+                    UI_Update(true, true);
                     string nowTime = DateTime.Now.ToString("yyyy-MM-dd, HH:mm:ss");
                     MessageTextBlock(txtMessage, $"[{nowTime}] Thread PAUSE ({pauseTime})\n");
 
@@ -98,6 +100,7 @@ namespace SimpleLogger
 
                 ThreadExit(ref RunMainThread, true);
 
+                UI_Update(true, true);
                 string nowTime = DateTime.Now.ToString("yyyy-MM-dd, HH:mm:ss");
                 MessageTextBlock(txtMessage, $"[{nowTime}] Thread STOP\n");
 
@@ -180,8 +183,6 @@ namespace SimpleLogger
                                 switch (_keyCode)
                                 {
                                     case KeyModel.CAPSLOCK_KEYCODE:
-                                        this.Invoke(new Action(() => InvokeUIAction_LockKey(_keyCode)));
-                                        break;
                                     case KeyModel.NUMLOCK_KEYCODE:
                                         this.Invoke(new Action(() => InvokeUIAction_LockKey(_keyCode)));
                                         break;
@@ -245,7 +246,7 @@ namespace SimpleLogger
                         KeyModel.CapsUpdate(isState);
 
                         // 해당범위 UI 업데이트
-                        UI_Update(true, false, KeyModel.GetCapsIndexArray());
+                        UI_Update(true, true, KeyModel.GetCapsIndexArray());
 
                         break;
                     }
@@ -257,9 +258,8 @@ namespace SimpleLogger
 
                         // 해당범위 UI 업데이트
 
-                        UI_Update(true, false, KeyModel.GetNumIndexArray(true));
-                        UI_Update(true, false, KeyModel.GetNumIndexArray(false));
-                        UI_Update(true, false);
+                        UI_Update(true, true, KeyModel.GetNumIndexArray(true));
+                        UI_Update(true, true, KeyModel.GetNumIndexArray(false));
 
                         break;
                     }
